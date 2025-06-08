@@ -115,7 +115,8 @@ public class Program
         });
 
         builder.Services
-            .Configure<KafkaConfig>(builder.Configuration.GetSection(nameof(KafkaConfig)));
+            .Configure<KafkaConfig>(builder.Configuration.GetSection(nameof(KafkaConfig)))
+            .Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

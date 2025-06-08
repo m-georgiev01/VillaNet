@@ -14,6 +14,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = observer(
         color: "#fff",
       }}
       open={showLoading}
+      data-testid="loading-spinner"
     >
       <CircularProgress color="inherit" />
     </Backdrop>

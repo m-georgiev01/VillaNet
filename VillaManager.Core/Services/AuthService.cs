@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using VillaManager.Core.DTOs;
 using VillaManager.Core.Exceptions;
+using VillaManager.Infrastructure.Configs;
 using VillaManager.Infrastructure.Data.Entities;
 using VillaManager.Infrastructure.Repository;
 
@@ -14,11 +15,11 @@ namespace VillaManager.Core.Services;
 internal class AuthService(
     IRepository<User> userRepository,
     IRepository<Role> roleRepository,
-    IConfiguration config) : IAuthService
+    IOptions<JwtSettings> config) : IAuthService
 {
     private readonly IRepository<User> _userRepository = userRepository;
     private readonly IRepository<Role> _roleRepository = roleRepository;
-    private readonly IConfiguration _config = config;
+    private readonly IOptions<JwtSettings> _config = config;
 
     public async Task<AuthResponse> LoginAsync(UserLoginRequest request)
     {
@@ -84,14 +85,14 @@ internal class AuthService(
             new(ClaimTypes.Role, roleName)
         };
 
-        var keyString = _config["JwtSettings:Key"] ?? throw new InvalidOperationException("JWT signing key is missing in configuration");
+        var keyString = _config.Value.Key ?? throw new InvalidOperationException("JWT signing key is missing in configuration");
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: _config["JwtSettings:Issuer"],
-            audience: _config["JwtSettings:Audience"],
+            issuer: _config.Value.Issuer,
+            audience: _config.Value.Audience,
             claims: claims,
             expires: DateTime.UtcNow.AddMinutes(30),
             signingCredentials: creds

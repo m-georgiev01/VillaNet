@@ -15,7 +15,9 @@ import villaStore from "../../stores/villaStore";
 import locationStore from "../../stores/locationStore";
 import { useNavigate } from "react-router";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
-import { Done } from "@mui/icons-material";
+import { lazy, Suspense } from "react";
+
+const DoneIcon = lazy(() => import("@mui/icons-material/Done"));
 
 export const AddVilla: React.FC = observer(() => {
   const navigate = useNavigate();
@@ -156,7 +158,9 @@ export const AddVilla: React.FC = observer(() => {
           </Button>
           {villaStore.createVillaRequest.image ? (
             <Box mt={2}>
-              <Done color="success" />
+              <Suspense fallback={null}>
+                <DoneIcon color="success" />
+              </Suspense>
             </Box>
           ) : (
             <Typography variant="body2" color="textSecondary" mt={2}>

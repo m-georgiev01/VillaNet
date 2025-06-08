@@ -37,6 +37,7 @@ export const CustomerReservations: React.FC = observer(() => {
       {Boolean(pageCount) && (
         <Box display="flex" justifyContent="center" mt={4}>
           <Pagination
+            data-testid="pagination"
             count={pageCount}
             page={reservationStore.pageNumber}
             onChange={(_, page) =>

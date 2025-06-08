@@ -93,7 +93,7 @@ internal class PropertyService(IRepository<Property> propertyRepository, IImageS
             Capacity = prop.Capacity,
             Image = prop.Image,
             OwnerId = prop.OwnerId
-        }; ;
+        };
     }
 
     public async Task<PropertyDTO> UpdateAsync(int id, UpdatePropertyRequest request, int ownerId)

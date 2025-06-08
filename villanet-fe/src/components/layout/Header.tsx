@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router";
 import authStore from "../../stores/authStore";
 
 export const Header: React.FC = observer(() => {
-  const naviate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <AppBar position="sticky" sx={{ p: "2px 20px" }}>
@@ -47,7 +47,10 @@ export const Header: React.FC = observer(() => {
               )}
             </Box>
             <Box>
-              <Button color="inherit" onClick={() => authStore.logout(naviate)}>
+              <Button
+                color="inherit"
+                onClick={() => authStore.logout(navigate)}
+              >
                 Logout
               </Button>
             </Box>
